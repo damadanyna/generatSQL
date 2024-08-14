@@ -39,35 +39,52 @@ function generate() {
             const firstSheetName = workbook.SheetNames[0];
             const worksheet = workbook.Sheets[firstSheetName];
             const GTableau = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-            let col = GTableau.slice(117, 210);
-            for (let i = 0; i < col.length; i++) {
-                const element = col[i];
-                // console.log(nouveauTableau);
-                var angency = element[1] < 10 ? 'sipem_0000' + element[1] : 'sipem_000' + element[1]
-                var cpt = element[3];
-
-                var query2 = `
-                    DELETE from ${angency}.detail_mvt WHERE dmv_inummvt in(
-                    SELECT mvt_inum from mvt where mvt_vcodeclt LIKE '%${cpt}%' and  SUBSTR(mvt_vrecu,1,3)='FTC'
-                    and mvt_ddate in ('2024-07-01','2024-05-01')
-                    order BY mvt_ddate desc );
-                  `;
-
-                var query = `
-                    DELETE from ${angency}.mvt  where mvt_vcodeclt LIKE '%${cpt}%' and  SUBSTR(mvt_vrecu,1,3)='FTC'
-                    and mvt_ddate in ('2024-07-01','2024-05-01')
-                    order BY mvt_ddate desc;
-                  `;
-                // console.log(cpt);
-
-                console.log(query2, query);
-
-            };
+            // let col = GTableau.slice(117, 210);
+            let col = GTableau.slice(215, 243);
+            cloture_cpt(col)
 
         };
 
         reader.readAsArrayBuffer(file);
     }
+}
+
+async function suppression_frais(col) {
+    for (let i = 0; i < col.length; i++) {
+        const element = col[i];
+        // console.log(nouveauTableau);
+        var angency = element[1] < 10 ? 'sipem_0000' + element[1] : 'sipem_000' + element[1]
+        var cpt = element[3];
+
+        var query2 = `
+            DELETE from ${angency}.detail_mvt WHERE dmv_inummvt in(
+            SELECT mvt_inum from mvt where mvt_vcodeclt LIKE '%${cpt}%' and  SUBSTR(mvt_vrecu,1,3)='FTC'
+            and mvt_ddate in ('2024-07-01','2024-05-01')
+            order BY mvt_ddate desc );
+          `;
+
+        var query = `
+            DELETE from ${angency}.mvt  where mvt_vcodeclt LIKE '%${cpt}%' and  SUBSTR(mvt_vrecu,1,3)='FTC'
+            and mvt_ddate in ('2024-07-01','2024-05-01')
+            order BY mvt_ddate desc;
+          `;
+        // console.log(cpt);
+
+        console.log();
+
+    };
+}
+
+async function cloture_cpt(col) {
+    for (let i = 0; i < col.length; i++) {
+        const element = col[i];
+        // console.log(nouveauTableau);
+        var angency = element[1] < 10 ? 'sipem_0000' + element[1] : 'sipem_000' + element[1]
+        var cpt = element[3];
+        console.log();
+
+    };
+
 }
 
 

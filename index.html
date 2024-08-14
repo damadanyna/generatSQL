@@ -20,7 +20,8 @@
                 <label for="file"
                     class="flex flex-col items-center p-4 border border-dashed border-gray-400 rounded cursor-pointer hover:bg-gray-100">
                     <span id="fileLabel" class="text-gray-600">Cliquez pour sélectionner un fichier CSV</span>
-                    <input type="file" id="file" accept=".csv" class="hidden" onchange="updateFileName()">
+                    <input type="file" id="file" accept=".csv, .xlsx, .xls" accept=".csv" class="hidden"
+                        onchange="updateFileName()">
                 </label>
             </div>
             <button id="btn_" onclick="generate()"
